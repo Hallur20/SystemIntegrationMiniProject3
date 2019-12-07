@@ -1,0 +1,10 @@
+version: '3'
+services:
+  feedback-service:
+    build: ./Feedback
+    expose:
+      - "5009"
+  food-service:
+    build: ./FoodRest
+    expose:
+      - "7000"
