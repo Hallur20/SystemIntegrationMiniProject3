@@ -13,16 +13,15 @@ import java.util.Iterator;
 
 public class JSONHandler {
 
+    public JSONHandler() {}
 
-    public static void main(String[] args) throws IOException, ParseException {
-        jsonToArrayList(new ArrayList<Food>());
-    }
     public static ArrayList<Food> jsonToArrayList(ArrayList<Food> list) throws IOException, ParseException {
         ArrayList<Food> foods = new ArrayList<>();
         JSONParser parser = new JSONParser();
         Object obj = parser.parse(new FileReader("./src/main/resources/foods.json"));
         JSONArray jsonArray = (JSONArray) obj;
         Iterator<JSONObject> iterator = jsonArray.iterator();
+
         while(iterator.hasNext()){
             JSONObject jsonObject = iterator.next();
             long id = (Long) jsonObject.get("id");
