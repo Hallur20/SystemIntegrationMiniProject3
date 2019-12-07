@@ -17,10 +17,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: cd into respective dir
-      run: cd ./Feedback
     - name: npm install, build, and test
       run: |
+        cd ./Feedback
         npm ci 
         npm run build --if-present 
         npm test 
