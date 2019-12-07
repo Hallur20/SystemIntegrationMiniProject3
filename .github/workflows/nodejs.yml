@@ -18,7 +18,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: cd into respective dir
-      run: cd ./Feedback/package.json
+      run: cd ./Feedback
     - name: npm install, build, and test
       run: |
         npm ci 
