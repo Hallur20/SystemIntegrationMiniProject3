@@ -1,6 +1,7 @@
-package food.rest;
+package food.rest.logic;
 
 import food.rest.Entities.Food;
+import food.rest.interfaces.JSONHandlerInterface;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -11,7 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class JSONHandler implements JSONHandlerInterface{
+public class JSONHandler implements JSONHandlerInterface {
 
     public JSONHandler() {}
 

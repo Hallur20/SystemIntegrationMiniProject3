@@ -1,4 +1,4 @@
-package food.rest;
+package food.rest.interfaces;
 
 import food.rest.Entities.Food;
 import org.json.simple.parser.ParseException;

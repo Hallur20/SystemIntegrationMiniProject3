@@ -1,6 +1,7 @@
 package food.rest;
 
 import food.rest.Entities.Food;
+import food.rest.logic.JSONHandler;
 import org.json.simple.parser.ParseException;
 import org.junit.Assert;
 import org.junit.jupiter.api.*;
@@ -10,7 +11,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 @SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class RestApplicationTests {
 ArrayList<Food> foods;
 JSONHandler jsonHandler;
