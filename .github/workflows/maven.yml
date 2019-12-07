@@ -1,4 +1,4 @@
-name: Java CI
+name: Food API
 
 on: [push]
 
