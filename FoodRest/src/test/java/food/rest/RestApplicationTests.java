@@ -5,13 +5,15 @@ import food.rest.logic.JSONHandler;
 import org.json.simple.parser.ParseException;
 import org.junit.Assert;
 import org.junit.jupiter.api.*;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 @SpringBootTest
-class RestApplicationTests {
+@SpringBootApplication
+public class RestApplicationTests {
 ArrayList<Food> foods;
 JSONHandler jsonHandler;
 
@@ -28,14 +30,12 @@ void dropData() {
 
     @Test
     void testJsonFile() throws IOException, ParseException {
-        System.out.println("size is: " + foods.size());
         foods = jsonHandler.jsonToArrayList(foods);
         Assert.assertFalse(foods.isEmpty());
     }
 
     @Test
     void testCategorizedFoods(){
-        System.out.println("size is: " + foods.size());
         String category = "coffee";
         foods = jsonHandler.getSpecificFoods(foods, category);
         for (Food food : foods){
@@ -45,7 +45,6 @@ void dropData() {
 
     @Test
     void testFoodsByName(){
-        System.out.println("size is: " + foods.size());
         String name = "Peanut";
         foods = jsonHandler.getFoodsByName(foods, name);
         for (Food food : foods){
@@ -54,7 +53,6 @@ void dropData() {
     }
     @Test
     void foodById(){
-        System.out.println("size is: " + foods.size());
         long id = 1;
         Food food = new Food();
         food = jsonHandler.getFoodById(foods, id);
