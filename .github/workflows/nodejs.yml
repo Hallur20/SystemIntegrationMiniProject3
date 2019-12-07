@@ -17,10 +17,12 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    - name: cd into respective dir
+      run: cd ./Feedback/package.json
     - name: npm install, build, and test
       run: |
-        npm ci ./Feedback/package.json 
-        npm run build --if-present ./Feedback/package.json
-        npm test ./Feedback/package.json
+        npm ci 
+        npm run build --if-present 
+        npm test 
       env:
         CI: true
