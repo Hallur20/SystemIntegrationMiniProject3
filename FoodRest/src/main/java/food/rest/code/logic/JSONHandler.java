@@ -1,7 +1,7 @@
-package food.rest.logic;
+package food.rest.code.logic;
 
-import food.rest.Entities.Food;
-import food.rest.interfaces.JSONHandlerInterface;
+import food.rest.code.Entities.Food;
+import food.rest.code.interfaces.JSONHandlerInterface;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

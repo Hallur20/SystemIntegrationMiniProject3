@@ -1,7 +1,7 @@
 package food.rest;
 
-import food.rest.Entities.Food;
-import food.rest.logic.JSONHandler;
+import food.rest.code.Entities.Food;
+import food.rest.code.logic.JSONHandler;
 import org.json.simple.parser.ParseException;
 import org.junit.Assert;
 import org.junit.jupiter.api.*;

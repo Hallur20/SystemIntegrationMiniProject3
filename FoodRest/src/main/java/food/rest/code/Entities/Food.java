@@ -1,4 +1,4 @@
-package food.rest.Entities;
+package food.rest.code.Entities;
 
 public class Food {
 

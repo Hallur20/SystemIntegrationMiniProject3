@@ -1,4 +1,4 @@
-package food.rest.main;
+package food.rest.code;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

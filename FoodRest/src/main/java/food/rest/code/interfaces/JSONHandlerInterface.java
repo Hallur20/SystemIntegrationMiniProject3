@@ -1,6 +1,6 @@
-package food.rest.interfaces;
+package food.rest.code.interfaces;
 
-import food.rest.Entities.Food;
+import food.rest.code.Entities.Food;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
