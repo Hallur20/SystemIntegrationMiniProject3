@@ -1,5 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const dbName = './db/feedback.db';
+const foodEndpoint = 'http://food-service:5009/food/id/';
+const fetch = require('node-fetch');
 
 class DBError extends Error {
     constructor(message) {
@@ -8,11 +10,12 @@ class DBError extends Error {
         this.name = 'DBError';
     }
 }
-class ArgumentError extends Error {
-    constructor(message) {
+class UserExposedError extends Error {
+    constructor(message, exposeToUser=true) {
         super(message);
         this.message = message;
-        this.name = 'ArgumentError';
+        this.name = 'UserExposedError';
+        if (exposeToUser) this.userMessage = message;
     }
 }
 class NotFoundError extends Error {
@@ -55,6 +58,16 @@ const initialSetup = () => {
     return promise;
 };
 
+const checkFoodId = (id) => {
+    return new Promise((resolve, reject) => {
+        fetch(foodEndpoint + id).then((res) => {
+            console.log('fetch');
+            console.log(res);
+            resolve();
+        });
+    });
+};
+
 const connect = () => {
     const promise = new Promise((resolve, reject) => {
 
@@ -73,7 +86,7 @@ const connect = () => {
 
 const convertToInt = (value, arguName) => {
     const intVal = parseInt(value);
-    if (isNaN(intVal)) throw new ArgumentError(`${arguName} must be an int. Actual: ${value}`);
+    if (isNaN(intVal)) throw new UserExposedError(`${arguName} must be an int. Actual: ${value}`);
     return intVal;
 }
 
@@ -82,13 +95,23 @@ const createFeedback = (rating, foodId, info = {}) => {
 
         rating = convertToInt(rating, 'rating');
         if (rating < 1 || rating > 5) {
-            throw new ArgumentError(`rating must be in range 1-5. Actual: ${rating}`);
+            throw new UserExposedError(`rating must be in range 1-5. Actual: ${rating}`);
         }
 
         foodId = convertToInt(foodId, 'foodId');
 
-        if (info.upperAge) info.upperAge = convertToInt(info.upperAge, 'upperAge');
-        if (info.lowerAge) info.lowerAge = convertToInt(info.lowerAge, 'lowerAge');
+        if (info.upperAge) {
+            info.upperAge = convertToInt(info.upperAge, 'upperAge');
+            if (info.upperAge <= 0)
+                throw new UserExposedError(`upperAge must be 0 or above`);
+        }
+        if (info.lowerAge) {
+            info.lowerAge = convertToInt(info.lowerAge, 'lowerAge');
+            if (info.lowerAge <= 0)
+                throw new UserExposedError(`lowerAge must be 0 or above`);
+            if (info.upperAge && info.upperAge < info.lowerAge)
+                throw new UserExposedError(`upperAge must not be smaller than lowerAge`);
+        }
 
         const sql = `
         insert into feedback 
@@ -175,13 +198,23 @@ const updateFeedback = (id, rating, foodId, info = {}) => {
         id = convertToInt(id, 'id');
         rating = convertToInt(rating, 'rating');
         if (rating < 1 || rating > 5) {
-            throw new ArgumentError(`rating must be in range 1-5. Actual: ${rating}`);
+            throw new UserExposedError(`rating must be in range 1-5. Actual: ${rating}`);
         }
 
         foodId = convertToInt(foodId, 'foodId');
 
-        if (info.upperAge) info.upperAge = convertToInt(info.upperAge, 'upperAge');
-        if (info.lowerAge) info.lowerAge = convertToInt(info.lowerAge, 'lowerAge');
+        if (info.upperAge) {
+            info.upperAge = convertToInt(info.upperAge, 'upperAge');
+            if (info.upperAge <= 0)
+                throw new UserExposedError(`upperAge must be 0 or above`);
+        }
+        if (info.lowerAge) {
+            info.lowerAge = convertToInt(info.lowerAge, 'lowerAge');
+            if (info.lowerAge <= 0)
+                throw new UserExposedError(`lowerAge must be 0 or above`);
+            if (info.upperAge && info.upperAge < info.lowerAge)
+                throw new UserExposedError(`upperAge must not be smaller than lowerAge`);
+        }
 
         const sql = `
         update feedback 
@@ -245,7 +278,7 @@ const deleteFeedback = (id) => {
 };
 
 exports.DBError = 'DBError';
-exports.ArgumentError = 'ArgumentError';
+exports.UserExposedError = 'UserExposedError';
 exports.NotFoundError = 'NotFoundError';
 exports.initialSetup = initialSetup;
 exports.createFeedback = createFeedback;
