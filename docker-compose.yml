@@ -6,8 +6,10 @@ services:
       - './Feedback/db:/home/node/app/db'
       - './Feedback/src:/home/node/app/src'
     expose:
-      - "5009"
+      - "3333"
   food-service:
     build: ./FoodRest
     expose:
-      - "7000"
+      - "5009"
+    ports: 
+      - 5009:5009
