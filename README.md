@@ -4,15 +4,17 @@
 ![](https://github.com/Hallur20/SystemIntegrationMiniProject3/workflows/Feedback%20API/badge.svg)
 
 ## Overview
+![](appendix/Architecture.jpg)
+
 
 ## Description
 
 ## Design process and considerations
 ### Business Processes 
 **_Feedback service in our Food Encyclopedia system:_**
-![](FoodFeedback.svg)
+![](appendix/FoodFeedback.svg)
 
 **_Food Encyclopedia system without the feedback process:_**
-![](FoodEncyclopedia.svg)
+![](appendix/FoodEncyclopedia.svg)
 
 ## Architecture 
