@@ -23,7 +23,6 @@ navigator.geolocation.getCurrentPosition((position)=>{
         return <div>
             <p>then, if you wish, leave some feedback: </p>
             <form>
-                sex<br/><input/><br/>
                 geographical location:<br/>
                 latitude<br/>
                 <input value={this.state.geo.lat} readOnly/><br/>
