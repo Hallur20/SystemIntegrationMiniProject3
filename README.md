@@ -8,7 +8,7 @@
 ## Description
 
 ## Design process and considerations
-### Business Proccesses 
+### Business Processes 
 **_Feedback service in our Food Encyclopedia system:_**
 ![](FoodFeedback.svg)
 
