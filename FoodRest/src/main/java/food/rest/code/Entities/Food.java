@@ -1,4 +1,4 @@
-package food.rest;
+package food.rest.code.Entities;
 
 public class Food {
 
@@ -24,6 +24,10 @@ public class Food {
         this.food_subgroup = food_subgroup;
         this.food_type = food_type;
         this.category = category;
+    }
+
+    public Food() {
+
     }
 
     public long getId() {

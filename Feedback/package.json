@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"No test specified. Its not a bug, its a feature\" && exit 0",
+<<<<<<< HEAD
     "start": "node ./src/index.js"
+=======
+    "start": "node index.js"
+>>>>>>> master
   },
   "author": "",
   "license": "ISC",

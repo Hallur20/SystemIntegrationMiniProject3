@@ -1,21 +1,24 @@
-package food.rest;
+package food.rest.code.logic;
 
+import food.rest.code.Entities.Food;
+import food.rest.code.interfaces.JSONHandlerInterface;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class JSONHandler {
+public class JSONHandler implements JSONHandlerInterface {
 
     public JSONHandler() {}
 
-    public static ArrayList<Food> jsonToArrayList(ArrayList<Food> list) throws IOException, ParseException {
+
+    @Override
+    public  ArrayList<Food> jsonToArrayList(ArrayList<Food> list) throws IOException, ParseException {
         ArrayList<Food> foods = new ArrayList<>();
         JSONParser parser = new JSONParser();
         Object obj = parser.parse(new FileReader("./src/main/resources/foods.json"));
@@ -39,8 +42,8 @@ public class JSONHandler {
         }
         return foods;
     }
-
-    public static ArrayList<Food> getSpecificFoods(ArrayList<Food> list, String category){
+    @Override
+    public  ArrayList<Food> getSpecificFoods(ArrayList<Food> list, String category){
         ArrayList<Food> foods = new ArrayList<>();
         for (Food food : list){
             if(food.getFood_group().toLowerCase().contains(category.toLowerCase())) {
@@ -49,8 +52,8 @@ public class JSONHandler {
         }
         return foods;
     }
-
-    public static ArrayList<Food> getFoodsByName(ArrayList<Food> list, String name) {
+    @Override
+    public  ArrayList<Food> getFoodsByName(ArrayList<Food> list, String name) {
         ArrayList<Food> foods = new ArrayList<>();
         for (Food food : list){
             if(food.getName().toLowerCase().contains(name.toLowerCase())) {
@@ -59,8 +62,8 @@ public class JSONHandler {
         }
         return foods;
     }
-
-    public static Food getFoodById(ArrayList<Food> list, long id) {
+    @Override
+    public  Food getFoodById(ArrayList<Food> list, long id) {
         Food foodById = null;
         for (Food food : list){
             if(food.getId() == id) {
