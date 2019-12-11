@@ -1,6 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const dbName = './db/feedback.db';
 const foodEndpoint = 'http://food-service:5009/food/id/';
+// const foodEndpoint = 'http://localhost:5009/food/id/'; // dev
 const fetch = require('node-fetch');
 
 class DBError extends Error {
@@ -60,11 +61,13 @@ const initialSetup = () => {
 
 const checkFoodId = (id) => {
     return new Promise((resolve, reject) => {
-        fetch(foodEndpoint + id).then((res) => {
-            console.log('fetch');
-            console.log(res);
-            resolve();
-        });
+        fetch(foodEndpoint + id).then((res) => res.text().then((body) => {
+                const jsonBody = JSON.parse(body);
+                if (jsonBody.id && parseInt(jsonBody.id) === parseInt(id)) {
+                    resolve(jsonBody);
+                }
+            })
+        );
     });
 };
 
@@ -113,34 +116,39 @@ const createFeedback = (rating, foodId, info = {}) => {
                 throw new UserExposedError(`upperAge must not be smaller than lowerAge`);
         }
 
-        const sql = `
-        insert into feedback 
-        (foodId, rating, description, gender, countryName, upperAge, lowerAge) 
-        values (?, ?, ?, ?, ?, ?, ?);
-        `;
+        checkFoodId(foodId).then((jsonBody) => {
+            console.log(`Food: id=${jsonBody.id}, name=${jsonBody.name}`);
+            connect().then((db) => {
+                const sql = `
+                insert into feedback 
+                (foodId, rating, description, gender, countryName, upperAge, lowerAge) 
+                values (?, ?, ?, ?, ?, ?, ?);
+                `;
 
-        connect().then((db) => {
-            try {
-                db.run(sql, [
-                    foodId, 
-                    rating, 
-                    info.description, 
-                    info.gender, 
-                    info.countryName, 
-                    info.upperAge, 
-                    info.lowerAge, 
-                ], 
-                (err) => {
-                    if (err) {
-                        throw new DBError(`Failed to create feedback with foodId ${foodId}: ${err}`);
-                    }
-                    console.log(`Created feedback with foodId ${foodId}`);
-                    resolve();
-                })
-            }  finally {
-                db.close();
-            }
+                try {
+                    db.run(sql, [
+                        foodId, 
+                        rating, 
+                        info.description, 
+                        info.gender, 
+                        info.countryName, 
+                        info.upperAge, 
+                        info.lowerAge, 
+                    ], 
+                    (err) => {
+                        if (err) {
+                            throw new DBError(`Failed to create feedback with foodId ${foodId}: ${err}`);
+                        }
+                        console.log(`Created feedback with foodId ${foodId}`);
+                        resolve();
+                    })
+                }  finally {
+                    db.close();
+                }
+            });
         });
+
+        
     });
     return promise;
 };
@@ -216,40 +224,33 @@ const updateFeedback = (id, rating, foodId, info = {}) => {
                 throw new UserExposedError(`upperAge must not be smaller than lowerAge`);
         }
 
-        const sql = `
-        update feedback 
-            set foodId = ?, 
-            rating = ?, 
-            description = ?, 
-            gender = ?, 
-            countryName = ?, 
-            upperAge = ?, 
-            lowerAge = ? 
-        where id = ?;
-        `;
-
-        connect().then((db) => {
-            try {
-                db.run(sql, [
-                    foodId, 
-                    rating, 
-                    info.description, 
-                    info.gender, 
-                    info.countryName, 
-                    info.upperAge, 
-                    info.lowerAge, 
-                    id, 
-                ], 
-                (err) => {
-                    if (err) {
-                        throw new DBError(`Failed to update feedback with id ${id}: ${err}`);
-                    }
-                    console.log(`Deleted feedback with id  ${id}`);
-                    resolve();
-                });
-            } finally {
-                db.close();
-            }
+        checkFoodId(foodId).then((jsonBody) => {
+            console.log(`Food: id=${jsonBody.id}, name=${jsonBody.name}`);
+            connect().then((db) => {
+                try {
+                    const sql = `
+                    update feedback 
+                        set foodId = ?, rating = ?, description = ?, 
+                        gender = ?, countryName = ?, upperAge = ?, lowerAge = ? 
+                    where id = ?;
+                    `;
+            
+                    db.run(sql, [
+                        foodId, rating, info.description, 
+                        info.gender, info.countryName, 
+                        info.upperAge, info.lowerAge, id, 
+                    ], 
+                    (err) => {
+                        if (err) {
+                            throw new DBError(`Failed to update feedback with id ${id}: ${err}`);
+                        }
+                        console.log(`Deleted feedback with id  ${id}`);
+                        resolve();
+                    });
+                } finally {
+                    db.close();
+                }
+            });
         });
     });
     return promise;
