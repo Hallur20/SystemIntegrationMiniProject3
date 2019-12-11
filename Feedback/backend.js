@@ -28,20 +28,23 @@ const initialSetup = () => {
         if (err)
             throw new DBError(`Failed to create database ${dbName}: ${err}`);
     });
-    db.run(`
-    create table if not exists feedback(
-        id integer primary key,
-        foodId integer not null,
-        rating integer not null,
-        description text,
-        gender text,
-        countryName text,
-        upperAge integer,
-        lowerAge integer
-    );
-    `);
-    console.log(db);
-    db.close()
+    try {
+        db.run(`
+        create table if not exists feedback(
+            id integer primary key,
+            foodId integer not null,
+            rating integer not null,
+            description text,
+            gender text,
+            countryName text,
+            upperAge integer,
+            lowerAge integer
+        );
+        `);
+        console.log(db);
+    } finally {
+        db.close()
+    }
 };
 
 const connect = () => {
@@ -76,36 +79,48 @@ const createFeedback = (rating, foodId, info = {}) => {
     values (?, ?, ?, ?, ?, ?, ?);
     `;
     const db = connect();
-    db.run(sql, [
-        foodId, 
-        rating, 
-        info.description, 
-        info.gender, 
-        info.countryName, 
-        info.upperAge, 
-        info.lowerAge, 
-    ]).close();
+
+    try {
+        db.run(sql, [
+            foodId, 
+            rating, 
+            info.description, 
+            info.gender, 
+            info.countryName, 
+            info.upperAge, 
+            info.lowerAge, 
+        ])
+    }  finally {
+        db.close();
+    }
 };
 
 const readFeedbackById = (id) => {
     id = convertToInt(id, 'id');
+    let feedback = {};
     const sql = `select * from feedback where id = ?;`;
     const db = connect();
-
-    let feedback = {};
-    db.get(sql, [id], (err, row) => {
-        console.log(row);
-    }).close();
+    try {
+        db.get(sql, [id], (err, row) => {
+            console.log(row);
+        });
+    } finally {
+        db.close();
+    }
     return feedback;
 };
 const readFeedbackByFoodId = (foodId) => {
     foodId = convertToInt(foodId, 'foodId');
+    let feedback = [];
     const sql = `select * from feedback where foodId = ?;`;
     const db = connect();
-    let feedback = [];
-    db.all(sql, [foodId], (err, row) => {
-        console.log(row);
-    }).close();
+    try {
+        db.all(sql, [foodId], (err, row) => {
+            console.log(row);
+        });
+    } finally {
+        db.close();
+    }
     return feedback;
 };
 const updateFeedback = (id, rating, foodId, info = {}) => {
@@ -132,27 +147,32 @@ const updateFeedback = (id, rating, foodId, info = {}) => {
     where id = ?;
     `;
     const db = connect();
-    db.run(sql, [
-        foodId, 
-        rating, 
-        info.description, 
-        info.gender, 
-        info.countryName, 
-        info.upperAge, 
-        info.lowerAge, 
-        id, 
-    ]).close();
+    try {
+        db.run(sql, [
+            foodId, 
+            rating, 
+            info.description, 
+            info.gender, 
+            info.countryName, 
+            info.upperAge, 
+            info.lowerAge, 
+            id, 
+        ]);
+    } finally {
+        db.close();
+    }
 }
 
 const deleteFeedback = (id) => {
     id = convertToInt(id, 'id');
     const sql = `delete from feedback where id = ?;`;
     const db = connect();
-    db.run(sql, [id]).close();
+    try {
+        db.run(sql, [id]);
+    } finally {
+        db.close();
+    }
 };
-
-
-
 
 exports.DBError = 'DBError';
 exports.ArgumentError = 'ArgumentError';
