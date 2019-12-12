@@ -57,7 +57,7 @@ event.preventDefault();
                 <Col xs>
                 <div className='form-group'>
                     <label for='genderInput'>Gender</label>
-                    <DropdownButton id='genderInput' value={this.state.gender}  title={this.state.genderValue}>
+                    <DropdownButton id='genderInput' value={this.state.genderValue}  title={this.state.genderValue}>
                         <Dropdown.Item as="button" ><div onClick={(e) => this.changeGenderValue(e.target.textContent)}>Female</div></Dropdown.Item>
                         <Dropdown.Item as="button" ><div onClick={(e) => this.changeGenderValue(e.target.textContent)}>Male</div></Dropdown.Item>
                         <Dropdown.Item as="button" ><div onClick={(e) => this.changeGenderValue(e.target.textContent)}>other</div></Dropdown.Item>
@@ -67,7 +67,7 @@ event.preventDefault();
                 <Col xs={{ order: 12 }}>
                 <div className='form-group'>
                     <label for='ageInput'>Age</label>
-                        <DropdownButton id='ageInput' value={this.state.age} title={this.state.ageValue}>
+                        <DropdownButton id='ageInput' value={this.state.ageValue} title={this.state.ageValue}>
                         <Dropdown.Item as="button" ><div onClick={(e) => this.changeAgeValue(e.target.textContent)}>14-21</div></Dropdown.Item>
                         <Dropdown.Item as="button" ><div onClick={(e) => this.changeAgeValue(e.target.textContent)}>22-32</div></Dropdown.Item>
                         <Dropdown.Item as="button" ><div onClick={(e) => this.changeAgeValue(e.target.textContent)}>33-50</div></Dropdown.Item>
@@ -90,33 +90,31 @@ event.preventDefault();
                 </Col>
                 </Row>
                 </Container>
-
-
                 
             <form onSubmit={this.handleSubmit}>
                 <div className='form-group'>
                     <label for='countryInput'>Country</label>
                     <input id='countryInput' type='text' name="countryName"className='form-control'/>
                 </div>
-                <div className='form-group'>
+                <div  className='form-group'>
                     <label for='commentInput'>Comment</label>
-                    <input id='commentInput' name="description" className='form-control'></input>
+                    <textarea  id='commentInput' name="description" className='form-control'></textarea >
                 </div>
-                <div className='form-group'>
+                <div hidden className='form-group'>
                     <label for='commentInput'>gender</label>
                     <input id='commentInput' name="gender" value={this.state.genderValue} className='form-control'></input>
                 </div>
-                <div className='form-group'>
+                <div hidden className='form-group'>
                     <label for='commentInput'>age</label>
-                    <input id='commentInput' type="number" name="age" value={1} className='form-control'></input>
+                    <input id='commentInput' name="age" value={this.state.ageValue} className='form-control'></input>
                 </div>
-                <div className='form-group'>
+                <div hidden className='form-group'>
                     <label for='commentInput'>rating</label>
-                    <input id='commentInput' type="number" name="rating" value={1} className='form-control'></input>
+                    <input id='commentInput' type="number" name="rating" value={this.state.rating} className='form-control'></input>
                 </div>
-                <div className='form-group'>
+                <div hidden className='form-group'>
                     <label for='commentInput'>food id</label>
-                    <input id='commentInput' type="number" name="foodId" value={1} className='form-control'></input>
+                    <input id='commentInput' type="number" name="foodId" value={this.props.foodID} className='form-control'></input>
                 </div>
                 <Button variant="success" type="submit" >Leave feedback</Button>
             </form>
