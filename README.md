@@ -27,3 +27,9 @@ As a future improvement we would have liked to add an API gateway which all betw
 
 **_Food Encyclopedia system without the feedback process:_**
 ![](appendix/FoodEncyclopedia.svg)
+
+### Made by
+<p>Murched kayed</p>
+<p>Rasmus Nordbjærg</p>
+<p>Hallur vid neyst</p>
+<p>Hazem saeid</p>
