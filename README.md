@@ -5,7 +5,7 @@
 
 ## Introduction
 
-The Food Information Encyclopedia is where you can find information about all kinds of foode. This is managed by a java spring system. Out task is to implement a feedback service for collecting and storing user feedback about the services that we provide.
+The Food Information Encyclopedia is where you can find information about all kinds of food. This is managed by a java spring system. Out task is to implement a feedback service for collecting and storing user feedback about the services that we provide.
 
 ## Overview
 
