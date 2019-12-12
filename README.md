@@ -15,6 +15,10 @@ The food-service retrieves data about the foods which are stored in a JSON file.
 
 The feedback service stores feedback in a sqlite database. The service exposes a REST API which is implemented in Express.JS.
 
+![](appendix/Architecture2.jpg)
+
+As a future improvement we would have liked to add an API gateway which all between frontend and the client should go through. However in the given time frame we did not manage to implement this.
+
 ![](appendix/Architecture.jpg)
 
 ## Business Processes 
