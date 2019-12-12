@@ -61,13 +61,14 @@ const initialSetup = () => {
 const checkFoodId = (id) => {
     console.log("Food service");
     return new Promise((resolve, reject) => {
-        fetch(foodEndpoint + id).then((res) => res.text().then((body) => {
-                const jsonBody = JSON.parse(body);
-                if (jsonBody.id && parseInt(jsonBody.id) === parseInt(id)) {
-                    resolve(jsonBody);
-                }
-            })
-        );
+        resolve({ id: id });
+        // fetch(foodEndpoint + id).then((res) => res.text().then((body) => {
+        //         const jsonBody = JSON.parse(body);
+        //         if (jsonBody.id && parseInt(jsonBody.id) === parseInt(id)) {
+        //             resolve(jsonBody);
+        //         }
+        //     })
+        // );
     });
 };
 
