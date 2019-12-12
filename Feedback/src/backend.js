@@ -119,7 +119,7 @@ const createFeedback = (rating, foodId, info = {}) => {
                         info.description, 
                         info.gender, 
                         info.countryName, 
-                        info.upperAge
+                        info.age
                     ], 
                     (err) => {
                         if (err) {
