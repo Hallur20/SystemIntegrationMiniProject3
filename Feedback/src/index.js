@@ -20,6 +20,7 @@ app.get('/help', (req, res) => {
 
 app.post('/feedback', jsonParser, (req, res) => {
     console.log(req.body);
+    req.body.age = req.body.upperAge;
     backend.createFeedback(req.body.rating, req.body.foodId, req.body).then(() => {
         return res.send(wrapResult(null, true, `Feedback inserted with foodId ${req.body.foodId}`));
     }).catch((err) => {
@@ -34,8 +35,7 @@ app.post('/feedback/help' , (req, res) => {
         description : "(optional) string", 
         gender : "(optional) string", 
         countryName : "(optional) string", 
-        upperAge : "(optional) 0 <= int", 
-        lowerAge : "(optional) 0 <= int <= upperAge", 
+        age : "(optional) string"
     }
     res.send(wrapResult(null, true, `Expected format in json body: ${JSON.stringify(expectedformat)}`));
 });
@@ -44,6 +44,7 @@ app.get('/feedback/:id', (req, res) => {
     const id = req.params.id;
 
     backend.readFeedbackById(id).then((feedback) => {
+        feedback.age = feedback.upperAge;
         if (feedback) return res.send(wrapResult(feedback, true));
         return res.send(wrapResult(feedback, false, `No feedback found with id ${id}`));
     }).catch((err) => {
@@ -55,6 +56,7 @@ app.get('/feedback', (req, res) => {
     const foodId = req.query.foodId;
 
     backend.readFeedbackByFoodId(foodId).then((feedback) => {
+        feedback.age = feedback.upperAge;
         if (feedback.length > 0) return res.send(wrapResult(feedback, true));
         return res.send(wrapResult(feedback, false, `No feedback found with foodId ${foodId}`));
     }).catch((err) => {
@@ -64,6 +66,7 @@ app.get('/feedback', (req, res) => {
 
 app.put('/feedback/:id', jsonParser, (req, res) => {
     const id = req.params.id;
+    req.body.age = req.body.upperAge;
     backend.updateFeedback(id, req.body.rating, req.body.foodId, req.body).then(() => {
         return res.send(wrapResult(null, true, `Feedback updated at id ${id}`));
     }).catch((err) => {

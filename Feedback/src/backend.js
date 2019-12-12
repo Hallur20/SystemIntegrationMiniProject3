@@ -40,8 +40,7 @@ const initialSetup = () => {
                     description text,
                     gender text,
                     countryName text,
-                    upperAge integer,
-                    lowerAge integer
+                    age text
                 );
                 `, [],
                 (err) => {
@@ -104,26 +103,13 @@ const createFeedback = (rating, foodId, info = {}) => {
 
         foodId = convertToInt(foodId, 'foodId');
 
-        if (info.upperAge) {
-            info.upperAge = convertToInt(info.upperAge, 'upperAge');
-            if (info.upperAge <= 0)
-                throw new UserExposedError(`upperAge must be 0 or above`);
-        }
-        if (info.lowerAge) {
-            info.lowerAge = convertToInt(info.lowerAge, 'lowerAge');
-            if (info.lowerAge <= 0)
-                throw new UserExposedError(`lowerAge must be 0 or above`);
-            if (info.upperAge && info.upperAge < info.lowerAge)
-                throw new UserExposedError(`upperAge must not be smaller than lowerAge`);
-        }
-
         checkFoodId(foodId).then((jsonBody) => {
             console.log(`Food: id=${jsonBody.id}, name=${jsonBody.name}`);
             connect().then((db) => {
                 const sql = `
                 insert into feedback 
-                (foodId, rating, description, gender, countryName, upperAge, lowerAge) 
-                values (?, ?, ?, ?, ?, ?, ?);
+                (foodId, rating, description, gender, countryName, age) 
+                values (?, ?, ?, ?, ?, ?);
                 `;
 
                 try {
@@ -133,8 +119,7 @@ const createFeedback = (rating, foodId, info = {}) => {
                         info.description, 
                         info.gender, 
                         info.countryName, 
-                        info.upperAge, 
-                        info.lowerAge, 
+                        info.upperAge
                     ], 
                     (err) => {
                         if (err) {
@@ -212,18 +197,6 @@ const updateFeedback = (id, rating, foodId, info = {}) => {
 
         foodId = convertToInt(foodId, 'foodId');
 
-        if (info.upperAge) {
-            info.upperAge = convertToInt(info.upperAge, 'upperAge');
-            if (info.upperAge <= 0)
-                throw new UserExposedError(`upperAge must be 0 or above`);
-        }
-        if (info.lowerAge) {
-            info.lowerAge = convertToInt(info.lowerAge, 'lowerAge');
-            if (info.lowerAge <= 0)
-                throw new UserExposedError(`lowerAge must be 0 or above`);
-            if (info.upperAge && info.upperAge < info.lowerAge)
-                throw new UserExposedError(`upperAge must not be smaller than lowerAge`);
-        }
 
         checkFoodId(foodId).then((jsonBody) => {
             console.log(`Food: id=${jsonBody.id}, name=${jsonBody.name}`);
@@ -232,14 +205,14 @@ const updateFeedback = (id, rating, foodId, info = {}) => {
                     const sql = `
                     update feedback 
                         set foodId = ?, rating = ?, description = ?, 
-                        gender = ?, countryName = ?, upperAge = ?, lowerAge = ? 
+                        gender = ?, countryName = ?, age = ?
                     where id = ?;
                     `;
             
                     db.run(sql, [
                         foodId, rating, info.description, 
                         info.gender, info.countryName, 
-                        info.upperAge, info.lowerAge, id, 
+                        info.upperAge, id, 
                     ], 
                     (err) => {
                         if (err) {
