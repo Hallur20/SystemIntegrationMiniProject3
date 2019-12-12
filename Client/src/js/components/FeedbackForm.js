@@ -1,69 +1,127 @@
 import React, { Component } from "react";
-import { Button } from 'react-bootstrap';
+import { Button,DropdownButton,Dropdown,Card,Container,Row,Col } from 'react-bootstrap';
+
+
 
 class FeedbackForm extends Component{
     constructor(){
         super();
+  
         this.state = {
-            rating : "",
-            sex: "hey",
-            country: "", //currently 0,0 if user does not accept geolocation...
-            gender: "",
-            age : "20-30",
-            description : ""
-        }
+            foodID: '',
+            country: "", //currently 0,0 if user does not accept geolocation...,
+            description : "",
+            genderValue: "Select gender",
+            ageValue: "Select age",
+            rating: "Select a Rate from 1-5"
+          }
+          this.changeGenderValue = this.changeGenderValue.bind(this);
+          this.changeAgeValue = this.changeAgeValue.bind(this);
+          this.changeRatingValue = this.changeRatingValue.bind(this);
+          this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+
+
+      changeGenderValue(text) {
+        this.setState({genderValue: text})
+      }
+
+      changeAgeValue(text) {
+        this.setState({ageValue: text})
+      }
+      changeRatingValue(text) {
+        this.setState({rating: text})
+      }
+
+
+      handleSubmit(event){
+         
+          const data = new FormData(event.target);
+event.preventDefault();
+          fetch("http://localhost:3333/feedback", {method: "POST", body: JSON.stringify(Object.fromEntries(data)), headers: {
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          }})
+      }
+
     render(){
-        return <div>
+        return <Card>
             <div className=''>
 
             </div>
-            <p>then, if you wish, leave some feedback: </p>
-            <form>
-                <div className='form-group'>
-                    <label for='countryInput'>Country</label>
-                    <input id='countryInput' type='text' value={this.state.country} className='form-control'/>
-                </div>
+            <Card.Header>Feedback: </Card.Header>
+            <Card.Body>
+            <Container>
+                <Row>
+                <Col xs>
                 <div className='form-group'>
                     <label for='genderInput'>Gender</label>
-                    <select id='genderInput' value={this.state.gender} className='form-control'>
-                        <option value='' style={{display: 'none'}}></option>
-                        <option value='female'>Female</option>
-                        <option value='male'>Male</option>
-                        <option value='other'>Other</option>
-                    </select> 
+                    <DropdownButton id='genderInput' value={this.state.gender}  title={this.state.genderValue}>
+                        <Dropdown.Item as="button" ><div onClick={(e) => this.changeGenderValue(e.target.textContent)}>Female</div></Dropdown.Item>
+                        <Dropdown.Item as="button" ><div onClick={(e) => this.changeGenderValue(e.target.textContent)}>Male</div></Dropdown.Item>
+                        <Dropdown.Item as="button" ><div onClick={(e) => this.changeGenderValue(e.target.textContent)}>other</div></Dropdown.Item>
+                    </DropdownButton>
                 </div>
+                </Col>
+                <Col xs={{ order: 12 }}>
                 <div className='form-group'>
                     <label for='ageInput'>Age</label>
-                    <select id='ageInput' value={this.state.age} className='form-control'>
-                        <option value='' style={{display: 'none'}}></option>
-                        <option value="14-21">14-21</option>
-                        <option value="22-32">22-32</option>
-                        <option value="33-50">33-50</option>
-                        <option value="51-65">51-65</option>
-                        <option value="66-80">66-80</option>
-                        <option value="80-">80-more</option>
-                    </select>
+                        <DropdownButton id='ageInput' value={this.state.age} title={this.state.ageValue}>
+                        <Dropdown.Item as="button" ><div onClick={(e) => this.changeAgeValue(e.target.textContent)}>14-21</div></Dropdown.Item>
+                        <Dropdown.Item as="button" ><div onClick={(e) => this.changeAgeValue(e.target.textContent)}>22-32</div></Dropdown.Item>
+                        <Dropdown.Item as="button" ><div onClick={(e) => this.changeAgeValue(e.target.textContent)}>33-50</div></Dropdown.Item>
+                        <Dropdown.Item as="button" ><div onClick={(e) => this.changeAgeValue(e.target.textContent)}>51-65</div></Dropdown.Item>
+                        <Dropdown.Item as="button" ><div onClick={(e) => this.changeAgeValue(e.target.textContent)}>66-more</div></Dropdown.Item>
+                    </DropdownButton>
                 </div>
+                </Col>
+                <Col xs={{ order: 1 }}>
                 <div className='form-group'>
                     <label for='ratingInput'>Rating 1-5</label>
-                    <select id='ratingInput' value={this.state.age} className='form-control'>
-                        <option value='' style={{display: 'none'}}></option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select> 
+                    <DropdownButton id='ratingInput' value={this.state.rating} title={this.state.rating}>
+                    <Dropdown.Item as="button" ><div onClick={(e) => this.changeRatingValue(e.target.textContent)}>1</div></Dropdown.Item>
+                    <Dropdown.Item as="button" ><div onClick={(e) => this.changeRatingValue(e.target.textContent)}>2</div></Dropdown.Item>
+                    <Dropdown.Item as="button" ><div onClick={(e) => this.changeRatingValue(e.target.textContent)}>3</div></Dropdown.Item>
+                    <Dropdown.Item as="button" ><div onClick={(e) => this.changeRatingValue(e.target.textContent)}>4</div></Dropdown.Item>
+                    <Dropdown.Item as="button" ><div onClick={(e) => this.changeRatingValue(e.target.textContent)}>5</div></Dropdown.Item>
+                    </DropdownButton> 
                 </div>  
+                </Col>
+                </Row>
+                </Container>
+
+
+                
+            <form onSubmit={this.handleSubmit}>
+                <div className='form-group'>
+                    <label for='countryInput'>Country</label>
+                    <input id='countryInput' type='text' name="countryName"className='form-control'/>
+                </div>
                 <div className='form-group'>
                     <label for='commentInput'>Comment</label>
-                    <textarea id='commentInput' value={this.state.description} className='form-control'></textarea>
+                    <input id='commentInput' name="description" className='form-control'></input>
                 </div>
-                <input className='btn' type="submit" value="Leave feedback"/>
+                <div className='form-group'>
+                    <label for='commentInput'>gender</label>
+                    <input id='commentInput' name="gender" value={this.state.genderValue} className='form-control'></input>
+                </div>
+                <div className='form-group'>
+                    <label for='commentInput'>age</label>
+                    <input id='commentInput' type="number" name="age" value={1} className='form-control'></input>
+                </div>
+                <div className='form-group'>
+                    <label for='commentInput'>rating</label>
+                    <input id='commentInput' type="number" name="rating" value={1} className='form-control'></input>
+                </div>
+                <div className='form-group'>
+                    <label for='commentInput'>food id</label>
+                    <input id='commentInput' type="number" name="foodId" value={1} className='form-control'></input>
+                </div>
+                <Button variant="success" type="submit" >Leave feedback</Button>
             </form>
-        </div>
+            </Card.Body>
+        </Card>
     }
 }
 

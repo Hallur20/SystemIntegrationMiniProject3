@@ -1,10 +1,12 @@
 const backend = require('./backend');
 const express = require('express');
+const cors = require('cors')
 const bodyParser = require('body-parser');
 
 backend.initialSetup();
 
 const app = express();
+app.use(cors())
 const jsonParser = bodyParser.json();
 const port = 3333;
 
@@ -17,6 +19,7 @@ app.get('/help', (req, res) => {
 });
 
 app.post('/feedback', jsonParser, (req, res) => {
+    console.log(req.body);
     backend.createFeedback(req.body.rating, req.body.foodId, req.body).then(() => {
         return res.send(wrapResult(null, true, `Feedback inserted with foodId ${req.body.foodId}`));
     }).catch((err) => {

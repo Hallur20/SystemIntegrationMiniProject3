@@ -73,4 +73,17 @@ public class JSONHandler implements JSONHandlerInterface {
         }
         return foodById;
     }
+
+    @Override
+    public ArrayList<String> getAllCategories(ArrayList<Food> list) {
+        ArrayList<String> categories = new ArrayList<String>();
+        for (Food food : list){
+            if(!categories.contains(food.getFood_group())){
+                categories.add(food.getFood_group());
+            }
+
+        }
+        return categories;
+    }
+
 }

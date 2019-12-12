@@ -11,4 +11,5 @@ public interface JSONHandlerInterface {
     ArrayList<Food> getSpecificFoods(ArrayList<Food> list, String category);
     ArrayList<Food> getFoodsByName(ArrayList<Food> list, String name);
     Food getFoodById(ArrayList<Food> list, long id);
+    ArrayList<String> getAllCategories(ArrayList<Food> list);
 }

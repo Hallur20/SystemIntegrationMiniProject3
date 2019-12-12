@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const dbName = './db/feedback.db';
-const foodEndpoint = 'http://food-service:5009/food/id/';
-// const foodEndpoint = 'http://localhost:5009/food/id/'; // dev
+// const foodEndpoint = 'http://food-service:5009/food/id/';
+const foodEndpoint = 'http://localhost:5009/api/v1/food/'; // dev
 const fetch = require('node-fetch');
 
 class DBError extends Error {
@@ -60,6 +60,7 @@ const initialSetup = () => {
 };
 
 const checkFoodId = (id) => {
+    console.log("Food service");
     return new Promise((resolve, reject) => {
         fetch(foodEndpoint + id).then((res) => res.text().then((body) => {
                 const jsonBody = JSON.parse(body);
