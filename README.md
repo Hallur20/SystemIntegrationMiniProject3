@@ -5,7 +5,7 @@
 
 ## Introduction
 
-The Food Information Encyclopedia is now also selling food. This is managed by a legacy java spring system. We are however tasked with implementing a feedback service for collecting and storing user feedback.
+The Food Information Encyclopedia is where you can find information about all kinds of foode. This is managed by a java spring system. Out task is to implement a feedback service for collecting and storing user feedback about the services that we provide.
 
 ## Overview
 
