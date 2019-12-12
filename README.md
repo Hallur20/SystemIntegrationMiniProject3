@@ -6,10 +6,10 @@
 
 
 ### Made by
-Murched kayed
-Rasmus Nordbjærg
-Hallur vid neyst
-Hazem saeid
+<p>Murched kayed</p>
+<p>Rasmus Nordbjærg</p>
+<p>Hallur vid neyst</p>
+<p>Hazem saeid</p>
 
 ## Introduction
 
