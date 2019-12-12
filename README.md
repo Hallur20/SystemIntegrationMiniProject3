@@ -3,14 +3,6 @@
 ![](https://github.com/Hallur20/SystemIntegrationMiniProject3/workflows/Food%20API/badge.svg)
 ![](https://github.com/Hallur20/SystemIntegrationMiniProject3/workflows/Feedback%20API/badge.svg)
 
-
-
-### Made by
-<p>Murched kayed</p>
-<p>Rasmus Nordbjærg</p>
-<p>Hallur vid neyst</p>
-<p>Hazem saeid</p>
-
 ## Introduction
 
 The Food Information Encyclopedia is now also selling food. This is managed by a legacy java spring system. We are however tasked with implementing a feedback service for collecting and storing user feedback.
@@ -32,3 +24,8 @@ The feedback service stores feedback in a sqlite database. The service exposes a
 **_Food Encyclopedia system without the feedback process:_**
 ![](appendix/FoodEncyclopedia.svg)
 
+### Made by
+<p>Murched kayed</p>
+<p>Rasmus Nordbjærg</p>
+<p>Hallur vid neyst</p>
+<p>Hazem saeid</p>
