@@ -12,7 +12,7 @@ const port = 3333;
 
 app.get('/help', (req, res) => {
     const msg = `
-    Following ressources are available from the feedback service:
+    Following ressources are available from the this service:
     \n<br/>* /feedback
     `;
     res.send(msg);
@@ -20,9 +20,8 @@ app.get('/help', (req, res) => {
 
 app.post('/feedback', jsonParser, (req, res) => {
     console.log(req.body);
-    req.body.age = req.body.upperAge;
-    backend.createFeedback(req.body.rating, req.body.foodId, req.body).then(() => {
-        return res.send(wrapResult(null, true, `Feedback inserted with foodId ${req.body.foodId}`));
+    backend.createFeedback(req.body).then((savedfeedback) => {
+        return res.send(wrapResult(null, true, `Feedback saved with id ${savedfeedback.id}`));
     }).catch((err) => {
         return handleError(err, res);
     });
