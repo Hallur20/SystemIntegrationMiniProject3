@@ -63,7 +63,7 @@ saveLog = (severity, description, message) => {
 
 severityValue = (severity) => {
     switch (severity) {
-        case "EMERGENCY":
+        case "SEVERE":
             return 0;
         case "ALERT":
             return 1;
@@ -75,7 +75,7 @@ severityValue = (severity) => {
             return 4;
         case "NOTICE":
             return 5;
-        case "INFORMATIONAL":
+        case "INFO":
             return 6;
         case "DEBUG":
             return 7;
